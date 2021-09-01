@@ -1,18 +1,15 @@
 package security.view.model.processor.issue;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
-import io.micronaut.core.beans.BeanMap;
+import io.micronaut.core.annotation.Introspected;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Produces;
-import io.micronaut.inject.beans.visitor.MappedSuperClassIntrospectionMapper;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
+import io.micronaut.views.View;
 
-import javax.validation.constraints.NotNull;
 import java.security.Principal;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,24 +17,34 @@ import java.util.Map;
 @Controller
 public class HomeController {
 
-    @Produces(MediaType.TEXT_PLAIN)
-    @Get("/index")
-    String index(Principal principal) {
-        return principal.getName();
-    }
-
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_HTML)
     @Get("/good")
+    @View("home")
     Map<String, Object> worksForMe(Principal principal) {
         Map<String, Object> result = new HashMap<>();
         result.put("principal", principal);
         return result;
     }
 
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_HTML)
     @Get("/bad")
-    Principal doesntWorkForMe(Principal principal) {
-        return principal;
+    @View("home")
+    AuthInfo doesntWorkForMe(Principal principal) {
+        var result = new AuthInfo();
+        result.setName(principal.getName());
+        return result;
     }
 
+    @Introspected
+    static class AuthInfo {
+        private String name;
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
 }

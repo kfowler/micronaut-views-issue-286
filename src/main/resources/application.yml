@@ -1,3 +1,8 @@
 micronaut:
   application:
     name: securityViewModelProcessorIssue
+  security:
+    views-model-decorator:
+      enabled: true
+    basic-auth:
+      enabled: true

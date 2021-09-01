@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html th:fragment="layout (content)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Example</title>
+</head>
+<body>
+<table>
+    <tr th:each="var : ${#vars.getVariableNames()}">
+        <td th:text="${var}"></td>
+        <td th:text="${#vars.getVariable(var)}"></td>
+    </tr>
+    <!--
+        Adding these manually because they are considered special.
+        see https://github.com/thymeleaf/thymeleaf/blob/thymeleaf-3.0.3.RELEASE/src/main/java/org/thymeleaf/context/WebEngineContext.java#L199
+    -->
+    <tr>
+        <td>param</td>
+        <td th:text="${#vars.getVariable('param')}"></td>
+    </tr>
+    <tr>
+        <td>session</td>
+        <td th:text="${#vars.getVariable('session')}"></td>
+    </tr>
+    <tr>
+        <td>application</td>
+        <td th:text="${#vars.getVariable('application')}"></td>
+    </tr>
+</table>
+<div th:unless="${security}" class="container-fluid">
+    <p>Unauthenticated</p>
+</div>
+<div th:if="${security}" class="container-fluid">
+    ${content}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+</body>
+</html>
