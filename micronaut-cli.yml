@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: security.view.model.processor.issue
+testFramework: junit
+sourceLanguage: java
+buildTool: gradle
+features: [annotation-api, app-name, gradle, http-client, java, java-application, junit, logback, netty-server, readme, security, security-annotations, shade, views-thymeleaf, yaml]
